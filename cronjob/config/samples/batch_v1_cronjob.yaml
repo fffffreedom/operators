@@ -10,3 +10,19 @@ metadata:
   name: cronjob-sample
 spec:
   # TODO(user): Add fields here
+  # https://kubebuilder.io/cronjob-tutorial/running.html
+  schedule: "*/1 * * * *"
+  startingDeadlineSeconds: 60
+  concurrencyPolicy: Allow # explicitly specify, but Allow is also default.
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox:1.28
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure
